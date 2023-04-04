@@ -1,0 +1,31 @@
+package edu.cibertec.sockets.mensaje.server;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.time.LocalDateTime;
+
+public class ServidorMensaje {
+	
+	private int puerto = 2292;
+	private boolean prendido;
+	
+	private ServerSocket socket;
+
+	public ServidorMensaje() throws IOException {
+		//this.prendido=true;
+		//System.out.println(String.format("El servidor se inicio a las %s", LocalDateTime.now()));
+		this.socket = new ServerSocket(this.puerto);
+		System.out.println(String.format("El servidor se creo en el puerto %s", this.puerto));
+	}
+
+	public void procesar() {
+		this.prendido=true;
+		System.out.println(String.format("El servidor se inicio a las %s", LocalDateTime.now()));
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

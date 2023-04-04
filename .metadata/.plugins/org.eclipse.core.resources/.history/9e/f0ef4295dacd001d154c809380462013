@@ -1,0 +1,10 @@
+package edu.cibertec.sockets.mensaje.server;
+
+public class ServidorMensaje {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

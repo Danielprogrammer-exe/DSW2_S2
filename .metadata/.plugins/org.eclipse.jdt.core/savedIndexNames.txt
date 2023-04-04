@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\ayzor\OneDrive\Desktop\DSW2_Clases\.metadata\.plugins\org.eclipse.jdt.core
+168087879.index
+3991577142.index
+1865797976.index

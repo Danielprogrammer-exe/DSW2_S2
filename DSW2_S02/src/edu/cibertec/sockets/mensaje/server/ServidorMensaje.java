@@ -1,0 +1,78 @@
+package edu.cibertec.sockets.mensaje.server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.time.LocalDateTime;
+
+public class ServidorMensaje {
+	
+	private int puerto = 2292;
+	private boolean prendido;
+	
+	private ServerSocket socket;
+
+	public ServidorMensaje() throws IOException {		
+		this.socket = new ServerSocket(this.puerto);
+		System.out.println(String.format("El servidor se creo en el puerto %d", this.puerto));
+	}
+
+	public void procesar() {
+		this.prendido=true;
+		System.out.println(String.format("El servidor se inicio a las %s", LocalDateTime.now()));
+		
+		//Variables a usar durante el proceso 
+		InputStream stream = null;
+		BufferedReader lector = null;
+		
+		//Empezamos a escuchar
+		while (this.prendido) {
+			System.out.println("----------------------------------");
+			try (Socket cliente = this.socket.accept()) {
+				//Mostrar los datos del socket cliente
+				InetAddress info = cliente.getInetAddress();
+				System.err.println(String.format("Conexion desde %s", info.getHostAddress()));
+				long inicio = System.nanoTime();
+				stream=cliente.getInputStream();
+				lector = new BufferedReader(new InputStreamReader(stream));
+				String mensajeRecibido = lector.readLine();
+				
+				long fin = System.nanoTime();
+				double tiempo = (fin - inicio) / 1000000000.0;
+				System.err.println(String.format("mensaje recibido: %s", mensajeRecibido));
+				System.out.println(String.format("Tiempo de procesamiento: %.4f", tiempo));
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (stream != null) {
+					try {
+						stream.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				if (lector != null) {
+					try {
+						lector.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		try {
+			ServidorMensaje servidor = new ServidorMensaje();
+			servidor.procesar();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
